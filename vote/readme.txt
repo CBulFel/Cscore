@@ -1,8 +1,8 @@
-jsp+javaBean+mysqlÊı¾İ¿â
+jsp+javaBean+mysqlæ•°æ®åº“
 
-Ä¬ÈÏÓÃ»§ÃûÃÜÂë
+é»˜è®¤ç”¨æˆ·åå¯†ç 
 admin 
-admin
+123
 
-Ê×ÏÈµ¼ÈëÊı¾İ¿â½Å±¾£¬È»ºó½«vote.warÖ±½Ó·Åµ½tomcatÏÂ¾Í¿ÉÒÔÅÜÆğÀ´¡£
-×¢ÒâĞŞ¸Ädatabase.propertiesÎÄ¼ş
+é¦–å…ˆå¯¼å…¥æ•°æ®åº“è„šæœ¬ï¼Œç„¶åå°†vote.warç›´æ¥æ”¾åˆ°tomcatä¸‹å°±å¯ä»¥è·‘èµ·æ¥ã€‚
+æ³¨æ„ä¿®æ”¹database.propertiesæ–‡ä»¶
