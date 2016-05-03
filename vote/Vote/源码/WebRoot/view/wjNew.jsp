@@ -16,20 +16,24 @@ function sbmOK(){
 	}
  }
 
+
+
 //校验
 function chkForm() {
-	var title = document.all("title").value;
-	var discribe = document.all("discribe").value;
-
+	
+	var title = document.getElementById("title").value;
+	var discribe = document.getElementById("discribe").value;
+	
 	if (title == "" || title.length == 0) {
 		alert("输入域 主题 不能为空。");
-		document.all("title").focus();
+		document.getElemntById("title").focus();
 		return false;
 	} else if (discribe == "" || discribe.length == 0) {
 		alert("输入域 描述 不能为空。");
-		document.all("discribe").focus();
+		document.getElementById("discribe").focus();
 		return false;
 	}
+	
 	return true;
 }
 
@@ -37,6 +41,53 @@ function chkForm() {
 function cancel(){
  	history.go(-1);
  }
+ 
+ 
+ function judge(value){
+ alert("1");
+ var myDate = new Date();
+ var now=myDate.toLocaleDateString();     //获取当前日期
+ alert("2");
+ 
+  var nowarray=now.split("/");
+  var year=nowarray[0];
+  var month=nowarray[1];
+  var day=nowarray[2];
+  alert(day.length);
+  if((month.length)<2){
+  month=0+month;
+  alert(month);
+  }
+  
+  if((day.length)<2){
+  day=0+day;
+  }
+  now=year+"0"+month+"0"+day;
+  alert(now)
+  
+  /*alert(now[5]);
+  if(now[5]!=0){
+  now=now.replace("/", "00");
+  }
+  else{
+  now=now.replace("/", "0");
+  }
+  
+  now=now.replace("/", "0");
+  */
+  
+  value=value.replace("-","0");
+  value=value.replace("-","0");
+  alert(now);
+  alert(now.length);
+  alert(value);
+  alert(value.length);
+ if(now>value){
+ alert("日期不合理");
+     }
+    
+ }
+ 
 </script>
 	</head>
 	<body leftmargin="8" topmargin="8">
@@ -61,7 +112,7 @@ function cancel(){
 					</td>
 					<td>
 						&nbsp;
-						<input type="text" name="title" style="width:350px" />
+						<input type="text" name="title" id="title" style="width:350px" />
 					</td>
 				</tr>
 				<tr>
@@ -70,7 +121,7 @@ function cancel(){
 					</td>
 					<td>
 						&nbsp;
-						<textarea name="discribe" cols="100" rows="15" ></textarea>
+						<textarea name="discribe" id="discribe" cols="100" rows="15" ></textarea>
 					</td>
 				</tr>
 				<tr>
@@ -83,7 +134,12 @@ function cancel(){
 					</td>
 				</tr>
 				<tr>
-				<td height="30" ></td>
+				<td height="30" align="right">
+				       截止时间：
+				</td>
+				<td>
+				       <input name="date" id="date" type="date" onblur="judge(this.value)" >
+				</td>
 				</tr>
 				<tr>
 					<td height="30">

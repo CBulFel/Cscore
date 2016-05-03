@@ -2,6 +2,12 @@
 <%@include file="check.jsp"%>
 <%@page import="com.vote.bean.*"%>
 <%@page import="com.vote.service.*"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
+
+
+
+
 <%
 	ObjectBeanService obs=new ObjectBeanService();
 	FileUtil fu=new FileUtil();
@@ -10,10 +16,25 @@
 	String discribe = request.getParameter("discribe");
 	String anonymousFlag = request.getParameter("anonymousFlag");
 	String remark = request.getParameter("remark");
+	String date=request.getParameter("date");
+	
+	    Date now = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");//可以方便地修改日期格式
+        String nowString = dateFormat.format( now ); 
+        
+        if(((date).compareTo(nowString))<0){
+        %>
+       <script>
+		alet("日期不合理");
+	   </script>
+       
+	<%}
 	ob.setTitle(title);
 	ob.setDiscribe(discribe);
 	ob.setAnonymousFlag(anonymousFlag);
 	ob.setRemark(remark);
+	ob.setDate(date);
+	
 	
 	int id = obs.intsertObjectBean(ob);
 	String pathinfo=request.getRealPath("");

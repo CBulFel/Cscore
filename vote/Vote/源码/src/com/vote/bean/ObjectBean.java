@@ -10,6 +10,7 @@ public class ObjectBean {
     private String remark;
     private int state;
     private String anonymousFlag;
+	private String date;
     
     public int getState() {
 		return state;
@@ -49,6 +50,10 @@ public class ObjectBean {
 	public String getRemark() {
 		return remark;
 	}
+	
+	public String getDate() {
+		return date;
+	}
 
 	public void setRemark(String remark) {
 		this.remark = remark;
@@ -60,6 +65,10 @@ public class ObjectBean {
 
 	public void setAnonymousFlag(String anonymousFlag) {
 		this.anonymousFlag = anonymousFlag;
+	}
+	
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 	public Timestamp getCreateTime() {

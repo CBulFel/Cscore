@@ -4,7 +4,11 @@
 <%@page import="com.vote.bean.*"%>
 <%@page import="java.util.*"%>
 <%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.util.Calendar"%>
+
 <%
+    ObjectBeanService.autoEnd();
 	List objList=ObjectBeanService.ListObjectBean();
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	String contextPath = request.getContextPath();
@@ -358,11 +362,12 @@ function showResult_onClick(){
 <tr align="center" bgcolor="#FAFAF1" height="22">
 	<td width="6%">序号</td>
 	<td width="4%">选择</td>
-	<td width="35%">标题</td>
-	<td width="15%">状态</td>
-	<td width="15%">更新时间</td>
+	<td width="30%">标题</td>
+	<td width="10%">状态</td>
+	<td width="10%">更新时间</td>
 	<td width="10%">发布人</td>
 	<td width="20%">操作</td>
+	<td width="10%">截止时间</td>
 </tr>
 <%
 if(objList.size()==0){
@@ -377,6 +382,8 @@ if(objList.size()>0){
 		ObjectBean ob=(ObjectBean)objList.get(i);
 		int oid=ob.getOid();
 		int state=ob.getState();
+		
+		
 		String stateAlias = "";
 		if(state==0) stateAlias = "草稿";
 		if(state==1) stateAlias = "已发布";
@@ -390,6 +397,7 @@ if(objList.size()>0){
 	<td><%=sdf.format(ob.getCreateTime())%></td>
 	<td>admin</td>
 	<td><a href="wjUpdate.jsp?oid=<%=oid%>">编辑</a> | <a href="#" onclick='preview_onClick2("<%=oid+","+state%>")'>预览</a></td>
+	<td><%=(ob.getDate())%></td>
 </tr>
 <%
   }
