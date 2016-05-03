@@ -1,42 +1,51 @@
 /*
-SQLyog 企业版 - MySQL GUI v8.14 
-MySQL - 5.0.51a-community-nt : Database - vote
-*********************************************************************
-*/
+Navicat MySQL Data Transfer
 
-/*!40101 SET NAMES utf8 */;
+Source Server         : test
+Source Server Version : 50027
+Source Host           : localhost:3306
+Source Database       : vote
 
-/*!40101 SET SQL_MODE=''*/;
+Target Server Type    : MYSQL
+Target Server Version : 50027
+File Encoding         : 65001
 
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`vote` /*!40100 DEFAULT CHARACTER SET utf8 */;
+Date: 2016-05-03 10:04:58
+*/
 
-USE `vote`;
+SET FOREIGN_KEY_CHECKS=0;
 
-/*Table structure for table `wj_admins` */
-
+-- ----------------------------
+-- Table structure for `wj_admins`
+-- ----------------------------
 DROP TABLE IF EXISTS `wj_admins`;
-
 CREATE TABLE `wj_admins` (
   `username` varchar(20) default NULL,
-  `password` varchar(30) default NULL
+  `password` varchar(30) default NULL,
+  `subpassword` varchar(30) default NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Data for the table `wj_admins` */
+-- ----------------------------
+-- Records of wj_admins
+-- ----------------------------
+INSERT INTO `wj_admins` VALUES ('admin', '2CB962AC59075B964B07152D234B70', '2CB962AC59075B964B07152D234B70');
+INSERT INTO `wj_admins` VALUES ('qwe', '2CB962AC59075B964B07152D234B70', '2CB962AC59075B964B07152D234B70');
+INSERT INTO `wj_admins` VALUES ('asd', '2CB962AC59075B964B07152D234B70', '2CB962AC59075B964B07152D234B70');
+INSERT INTO `wj_admins` VALUES ('555', 'DE21C670AE7C3F6F3F1F37029303C9', '207FA2814E81A067BD2662BA10B0F1');
+INSERT INTO `wj_admins` VALUES ('1111', '2CB962AC59075B964B07152D234B70', '4F3A834378C50F844E390F64C3E00A');
+INSERT INTO `wj_admins` VALUES ('343', '2CB962AC59075B964B07152D234B70', '2CB962AC59075B964B07152D234B70');
+INSERT INTO `wj_admins` VALUES ('123', '2CB962AC59075B964B07152D234B70', null);
+INSERT INTO `wj_admins` VALUES ('qwer', '2CB962AC59075B964B07152D234B70', null);
+INSERT INTO `wj_admins` VALUES ('1233', '2CB962AC59075B964B07152D234B70', null);
+INSERT INTO `wj_admins` VALUES ('1233', '2CB962AC59075B964B07152D234B70', null);
+INSERT INTO `wj_admins` VALUES ('1233', '2CB962AC59075B964B07152D234B70', null);
+INSERT INTO `wj_admins` VALUES ('1233', '2CB962AC59075B964B07152D234B70', null);
+INSERT INTO `wj_admins` VALUES ('cbf', '2CB962AC59075B964B07152D234B70', null);
 
-LOCK TABLES `wj_admins` WRITE;
-
-insert  into `wj_admins`(`username`,`password`) values ('admin','232F297A57A5A743894A0E4A801FC3');
-
-UNLOCK TABLES;
-
-/*Table structure for table `wj_answer` */
-
+-- ----------------------------
+-- Table structure for `wj_answer`
+-- ----------------------------
 DROP TABLE IF EXISTS `wj_answer`;
-
 CREATE TABLE `wj_answer` (
   `answerId` int(11) NOT NULL auto_increment COMMENT '答案Id',
   `replayId` int(11) NOT NULL COMMENT '回答者Id',
@@ -46,20 +55,25 @@ CREATE TABLE `wj_answer` (
   `seValue` varchar(1000) default NULL COMMENT '选项内容',
   `remark` varchar(200) default NULL COMMENT '备注',
   PRIMARY KEY  (`answerId`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Data for the table `wj_answer` */
+-- ----------------------------
+-- Records of wj_answer
+-- ----------------------------
+INSERT INTO `wj_answer` VALUES ('35', '0', '0', null, null, null, null);
+INSERT INTO `wj_answer` VALUES ('39', '16', '21', '1', '1', '1', null);
+INSERT INTO `wj_answer` VALUES ('40', '16', '21', '2', '1', '1', null);
+INSERT INTO `wj_answer` VALUES ('41', '16', '21', '3', '1', '123', null);
+INSERT INTO `wj_answer` VALUES ('42', '17', '24', '1', '1', '20', null);
+INSERT INTO `wj_answer` VALUES ('43', '17', '24', '2', '1', '20', null);
+INSERT INTO `wj_answer` VALUES ('44', '17', '24', '3', '1', '20', null);
+INSERT INTO `wj_answer` VALUES ('45', '17', '24', '4', '1', '6', null);
+INSERT INTO `wj_answer` VALUES ('46', '17', '24', '5', '1', '', null);
 
-LOCK TABLES `wj_answer` WRITE;
-
-insert  into `wj_answer`(`answerId`,`replayId`,`oid`,`qSeq`,`seSeq`,`seValue`,`remark`) values (16,6,21,1,1,'1',NULL),(17,6,21,2,2,'2',NULL),(18,6,21,3,1,'建议1',NULL),(19,7,21,1,2,'2',NULL),(20,7,21,2,3,'3',NULL),(21,7,21,3,1,'建议2',NULL);
-
-UNLOCK TABLES;
-
-/*Table structure for table `wj_object` */
-
+-- ----------------------------
+-- Table structure for `wj_object`
+-- ----------------------------
 DROP TABLE IF EXISTS `wj_object`;
-
 CREATE TABLE `wj_object` (
   `oid` int(11) NOT NULL auto_increment,
   `title` varchar(1000) default NULL,
@@ -68,21 +82,22 @@ CREATE TABLE `wj_object` (
   `state` int(11) default NULL,
   `remark` varchar(200) default NULL,
   `anonymousFlag` char(1) default NULL COMMENT '是否匿名投递',
+  `username` varchar(20) default NULL,
+  `endtime` varchar(20) default NULL,
   PRIMARY KEY  (`oid`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Data for the table `wj_object` */
+-- ----------------------------
+-- Records of wj_object
+-- ----------------------------
+INSERT INTO `wj_object` VALUES ('21', '员工思想动态调查问卷', '说明：\r\n1. 本调查问卷主要了解您对一些问题的看法，请认真作答。\r\n2. 问卷为不记名方式，您的个人信息和观点将受到严格保密。\r\n3. 问卷主要为单项选择题，少部分可多选，请按照要求作出选择。\r\n4. 每题必答，请注意不要漏答。', '2011-10-26 17:28:55', '2', null, '1', 'admin', null);
+INSERT INTO `wj_object` VALUES ('22', 'asd 问卷', '1231331', '2016-04-26 17:13:51', '0', null, '1', 'asd', null);
+INSERT INTO `wj_object` VALUES ('24', '第一小组', '评分标准：                                \r\n30分：30～27优秀；\r\n26～23 良好；\r\n22～18 及格；\r\n17～0 不及格；\r\n10分：10～9优秀；\r\n8～7 良好；\r\n6 及格；\r\n5～0 不及格\r\n\r\n小组成员：\r\n蔡晓鹏、陈振杰、张仲勋、黄玉尧\r\n\r\n项目名称：\r\n视频资讯APP', '2016-05-01 16:17:24', '1', null, '1', 'qwe', '2016-05-02');
 
-LOCK TABLES `wj_object` WRITE;
-
-insert  into `wj_object`(`oid`,`title`,`discribe`,`createtime`,`state`,`remark`,`anonymousFlag`) values (21,'员工思想动态调查问卷','说明：\r\n1. 本调查问卷主要了解您对一些问题的看法，请认真作答。\r\n2. 问卷为不记名方式，您的个人信息和观点将受到严格保密。\r\n3. 问卷主要为单项选择题，少部分可多选，请按照要求作出选择。\r\n4. 每题必答，请注意不要漏答。','2011-10-26 17:28:55',1,NULL,'1');
-
-UNLOCK TABLES;
-
-/*Table structure for table `wj_question` */
-
+-- ----------------------------
+-- Table structure for `wj_question`
+-- ----------------------------
 DROP TABLE IF EXISTS `wj_question`;
-
 CREATE TABLE `wj_question` (
   `oid` int(11) default NULL,
   `content` varchar(1000) default NULL,
@@ -91,18 +106,22 @@ CREATE TABLE `wj_question` (
   `remark` varchar(20) default NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Data for the table `wj_question` */
+-- ----------------------------
+-- Records of wj_question
+-- ----------------------------
+INSERT INTO `wj_question` VALUES ('21', '您的姓别', '0', '1', '');
+INSERT INTO `wj_question` VALUES ('21', '您的年龄', '0', '2', '');
+INSERT INTO `wj_question` VALUES ('21', '建议意见', '3', '3', '');
+INSERT INTO `wj_question` VALUES ('24', '功能的完整性和可用性(30分)', '3', '1', null);
+INSERT INTO `wj_question` VALUES ('24', '技术实现的难度  (30分)', '3', '2', null);
+INSERT INTO `wj_question` VALUES ('24', '用户体验分析及改进    (30分)', '3', '3', null);
+INSERT INTO `wj_question` VALUES ('24', '团队分工和合作的效果（10分）', '3', '4', null);
+INSERT INTO `wj_question` VALUES ('24', '评语和建议', '3', '5', null);
 
-LOCK TABLES `wj_question` WRITE;
-
-insert  into `wj_question`(`oid`,`content`,`qtype`,`seq`,`remark`) values (21,'您的姓别',0,1,NULL),(21,'您的年龄',0,2,NULL),(21,'建议意见',3,3,NULL);
-
-UNLOCK TABLES;
-
-/*Table structure for table `wj_replay` */
-
+-- ----------------------------
+-- Table structure for `wj_replay`
+-- ----------------------------
 DROP TABLE IF EXISTS `wj_replay`;
-
 CREATE TABLE `wj_replay` (
   `replayId` int(11) NOT NULL auto_increment COMMENT '回复ID',
   `replayCode` varchar(100) NOT NULL COMMENT '回复者代码',
@@ -111,20 +130,18 @@ CREATE TABLE `wj_replay` (
   `replayTime` timestamp NULL default NULL COMMENT '回复时间',
   `remark` varchar(200) default NULL COMMENT '备注',
   PRIMARY KEY  (`replayId`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC COMMENT='回复内容表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC COMMENT='回复内容表';
 
-/*Data for the table `wj_replay` */
+-- ----------------------------
+-- Records of wj_replay
+-- ----------------------------
+INSERT INTO `wj_replay` VALUES ('16', 'anonymous', '0:0:0:0:0:0:0:1', '21', '2016-04-24 16:35:04', '');
+INSERT INTO `wj_replay` VALUES ('17', 'anonymous', '0:0:0:0:0:0:0:1', '24', '2016-05-01 16:24:48', '');
 
-LOCK TABLES `wj_replay` WRITE;
-
-insert  into `wj_replay`(`replayId`,`replayCode`,`replayIp`,`oid`,`replayTime`,`remark`) values (6,'anonymous','192.168.0.1',21,'2011-12-05 10:23:24',''),(7,'anonymous','127.0.0.1',21,'2011-12-05 10:23:58','');
-
-UNLOCK TABLES;
-
-/*Table structure for table `wj_selecter` */
-
+-- ----------------------------
+-- Table structure for `wj_selecter`
+-- ----------------------------
 DROP TABLE IF EXISTS `wj_selecter`;
-
 CREATE TABLE `wj_selecter` (
   `oid` int(11) default NULL,
   `qseq` int(11) default NULL,
@@ -133,15 +150,17 @@ CREATE TABLE `wj_selecter` (
   `remark` varchar(20) default NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Data for the table `wj_selecter` */
-
-LOCK TABLES `wj_selecter` WRITE;
-
-insert  into `wj_selecter`(`oid`,`qseq`,`content`,`selseq`,`remark`) values (21,1,'A 男',1,NULL),(21,1,'B 女',2,NULL),(21,2,'A 25岁以下',1,NULL),(21,2,'B 25~30岁',2,NULL),(21,2,'C 30岁以上',3,NULL),(21,3,'写出您的建议，意见',0,NULL);
-
-UNLOCK TABLES;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+-- ----------------------------
+-- Records of wj_selecter
+-- ----------------------------
+INSERT INTO `wj_selecter` VALUES ('21', '1', 'A 男', '1', null);
+INSERT INTO `wj_selecter` VALUES ('21', '1', 'B 女', '2', null);
+INSERT INTO `wj_selecter` VALUES ('21', '2', 'A 25岁以下', '1', null);
+INSERT INTO `wj_selecter` VALUES ('21', '2', 'B 25~30岁', '2', null);
+INSERT INTO `wj_selecter` VALUES ('21', '2', 'C 30岁以上', '3', null);
+INSERT INTO `wj_selecter` VALUES ('21', '3', '写出您的建议，意见', '0', null);
+INSERT INTO `wj_selecter` VALUES ('24', '1', '', '1', null);
+INSERT INTO `wj_selecter` VALUES ('24', '2', '', '1', null);
+INSERT INTO `wj_selecter` VALUES ('24', '3', '', '1', null);
+INSERT INTO `wj_selecter` VALUES ('24', '4', '', '1', null);
+INSERT INTO `wj_selecter` VALUES ('24', '5', '', '1', null);
