@@ -1,10 +1,12 @@
-package com.vote.service;
+﻿package com.vote.service;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,7 +24,7 @@ public class ObjectBeanService {
 		int id = 0;
 		try {
 			con = db.getConnection();
-			sql = "insert into wj_object(title,discribe,createtime,state,remark,anonymousFlag) values(?,?,?,?,?,?)";
+			sql = "insert into wj_object(title,discribe,createtime,state,remark,anonymousFlag,username,endtime) values(?,?,?,?,?,?,?,?)";
 			System.out.println(sql);
 			stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, bean.getTitle());
@@ -31,10 +33,12 @@ public class ObjectBeanService {
 			stmt.setInt(4, bean.getState());
 			stmt.setString(5, bean.getRemark());
 			stmt.setString(6, bean.getAnonymousFlag());
+			stmt.setString(7, bean.getUsername());
+			stmt.setString(8, bean.getDate());
 			
 			stmt.executeUpdate();
-			rs = stmt.getGeneratedKeys();
-			if(rs.next()) id = rs.getInt(1);
+			rs = stmt.getGeneratedKeys();//可以获取刚刚插入自增ID值
+			if(rs.next()) id = rs.getInt(1); 
 			System.out.println("id:"+id);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -128,14 +132,17 @@ public class ObjectBeanService {
 	}
     
 	//	 查看问卷;
-	public static List ListObjectBean() {
+	public static List ListObjectBean(String username) {
 		DBConnection dbcon = new DBConnection();
 		Connection con = null;
 		Statement stm = null;
 		ResultSet rs = null;
 		List objList=new LinkedList();
 		try {
-			String sql = "select oid,title,createtime,state from wj_object order by oid desc";
+			String sql = "select oid,title,createtime,state,endtime from wj_object "
+					+ "where username="
+					+ "'"+username+"'"
+					+ "order by oid desc ";
 			con=dbcon.getConnection();
 			stm=con.createStatement();
 			rs = stm.executeQuery(sql);
@@ -145,10 +152,12 @@ public class ObjectBeanService {
 				String title=rs.getString("title");
 				java.sql.Timestamp createtime=rs.getTimestamp("createtime");
 				int state=rs.getInt("state");
+				String endtime=rs.getString("endtime");
 				ob.setOid(oid);
 				ob.setTitle(title);
 				ob.setCreateTime(createtime);
 				ob.setState(state);
+				ob.setDate(endtime);//数据库的endtime就是ob中的Date
 				
 				objList.add(ob);
 			}
@@ -199,6 +208,24 @@ public class ObjectBeanService {
 
 	}
 	
+	//判断时间
+	public static void autoEnd() throws Exception{
+		DBConnection dbcon = new DBConnection();
+		Connection con = null;
+		Statement stm = null;
+		
+		
+		con=dbcon.getConnection();
+		stm=con.createStatement();
+		
+		Date now = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");//可以方便地修改日期格式
+        String nowString = dateFormat.format( now );
+		
+		
+		String sql="UPDATE wj_object SET state=2 WHERE endtime<"+"'"+nowString+"'";
+		stm.execute(sql);
+	}
 	
 	/**
 	 * 查找发布后的问卷
@@ -244,7 +271,7 @@ public class ObjectBeanService {
 	}
 
 	
-    //查找问卷一共几条数据
+    //查找问卷一共几条数据(几个问题)
 	public static int getCount(int oid) {
 		DBConnection dbcon = new DBConnection();
 		Connection con = null;
