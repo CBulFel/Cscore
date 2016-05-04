@@ -1,18 +1,18 @@
-﻿<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="check.jsp"%>
 <%@page import="com.vote.service.*"%>
 <%@page import="com.vote.bean.*"%>
 <%
 	String userName = (String)session.getAttribute("userName");
 	String oldpassword = Func.getString(request.getAttribute("oldpassword"));
-    boolean isSame = true;
+    boolean isSame = true; 
     if(request.getAttribute("isSame")!=null)
     	isSame = (Boolean)request.getAttribute("isSame");
     //System.out.println(isSame);
 %>
 <html>
 	<head>
-		<title>问卷管理系统</title>
+		<title>课堂评分统计系统</title>
 		<link type="text/css" rel="stylesheet" href="/vote/view/css/main.css" />
 <script type="text/javascript">
    //提交
@@ -22,6 +22,7 @@ function submit(){
 		document.fm.submit();
 		return;
 	}
+	
 }
    //校验原密码
 function checkOldPsw(oldpassword)
@@ -41,21 +42,21 @@ function checkOldPsw(oldpassword)
 	if (oldpassword == "" || oldpassword.length == 0) {
 		alert("请输入原密码。");
 		document.all("oldpassword").focus();
+
 		return false;
 	}
-	else
-	{
-		if(document.getElementById("pswError").innerHTML!="")
-			return false;
-	}
-	if (newpassword == "" || newpassword.length == 0) {
+//
+	
+	 if (newpassword == "" || newpassword.length == 0) {
 		alert("请输入新密码。");
 		document.all("newpassword").focus();
+
 		return false;
 	}
 	if (confirmpassword == "" || confirmpassword.length == 0) {
 		alert("请输入确认密码。");
 		document.all("confirmpassword").focus();
+
 		return false;
 	}
 	if (confirmpassword != "" && newpassword != "") {
@@ -63,8 +64,21 @@ function checkOldPsw(oldpassword)
 		{
 			alert("新密码与确认密码输入不一致，请检查。");
 			document.all("confirmpassword").focus();
+
 			return false;
 		}
+	}
+	//
+	
+	if(oldpassword != " " && oldpassword.length != 0){
+		//去掉str的所有空格
+		var str= document.getElementById("pswError").innerHTML.replace(/\s/g, "") ;
+		
+		if(str.length!=0){
+				
+				return false;
+		}
+		
 	}
 	return true;
    }
@@ -125,7 +139,7 @@ function back() {
 	//显示提示信息
 	function showInfo(str) {
 		if (str.length == 0) {
-			document.getElementById("pswError").innerHTML = "";
+			document.getElementById("pswError").innerHTML = " ";
 			return;
 		}
 
@@ -142,12 +156,10 @@ function back() {
 		<form action="" name="fm" method="post">
 		    <input type="hidden" name="userName" value=<%=userName%> />
 			<table width="500" border="0" align="center" cellpadding="2"  cellspacing="1" id="myTable" class="tab">
-				<tr>
-					<td width="60px">
-						原密码：
-					</td>
+				<tr align="left"> 
+					
 					<td>
-						<input value="<%=oldpassword%>" type="password" name="oldpassword" onblur="showInfo(this.value)" style="width:150px;" maxLength='20'/>
+						<input style="width:300px; height:30px;font-size:18px;" placeholder="原密码" value="<%=oldpassword%>" type="password" name="oldpassword" onBlur="showInfo(this.value)" />
 						<%--
 						<input value="<%=oldpassword%>" type="password" name="oldpassword" onblur="checkOldPsw(this.value);" onkeyup="showHint(this.value)" style="width:150px;" maxLength='20'/>
 						<font color='red'><span id="pswError"><%if(!isSame) out.println("原密码输入错误");%></span></font> 
@@ -156,30 +168,28 @@ function back() {
 					</td>
 				</tr>
 				<tr>
-					<td valign="top">
-						新密码：
-					</td>
+					
 					<td>
-						<input type="password" name="newpassword"  style="width:150px;" maxLength='20'/>
+						<input style="width:300px; height:30px;font-size:18px;" placeholder="新密码" type="password" name="newpassword"  />
 					</td>
 				</tr>
 				<tr>
-					<td valign="top">
-						确认密码：
-					</td>
+					
 					<td>
-						<input type="password" name="confirmpassword"  style="width:150px;" maxLength='20'/>
+						<input style="width:300px; height:30px;font-size:18px;" placeholder="确认密码" type="password" name="confirmpassword"  />
 					</td>
 				</tr>
 			</table>
 		</form>
-		<table width="500" border="0" align="center" cellpadding="2"  cellspacing="1" id="myTable" >
+		
+		<table width="500" border="0" align="center" cellpadding="2"  cellspacing="1" id="myTable" class="tab">
 		<tr align="left">
 			<td id="td1">
-				<input type="button" value="确定 " name="add" onclick="submit();" class="btn"/>&nbsp;&nbsp;
-				<input type="button" value="取消" onclick="back();" class="btn"/>
+				<input style="width:100px; height:30px;" type="button" value="确定 " name="add" onClick="submit();" class="btn"/>&nbsp;&nbsp;
+				<input style="width:100px; height:30px;" type="button" value="取消" onClick="back();" class="btn"/>
 			 </td>
 		</tr>
-		</table>
+			</table>
+		
 	</body>
 </html>
