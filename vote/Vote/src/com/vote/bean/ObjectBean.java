@@ -3,14 +3,32 @@ package com.vote.bean;
 import java.sql.Timestamp;
 
 public class ObjectBean {
-    private int oid;
+
+	private int oid;
     private String title;
     private String discribe;
     private Timestamp createTime;
     private String remark;
     private int state;
     private String anonymousFlag;
+    private String username;//用户名
+    private String date;//截止时间
     
+    public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
     public int getState() {
 		return state;
 	}

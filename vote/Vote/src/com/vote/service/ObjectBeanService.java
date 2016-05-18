@@ -1,4 +1,4 @@
-﻿package com.vote.service;
+package com.vote.service;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

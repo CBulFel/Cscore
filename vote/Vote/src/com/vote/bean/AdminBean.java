@@ -4,7 +4,7 @@ public class AdminBean {
 	
 	private String username;
 	private String password;
-	private String subpassword;//×ÓÓÃ»§ÃÜÂë
+	private String subpassword;//å­ç”¨æˆ·å¯†ç 
 	
 	public String getSubpassword() {
 		return subpassword;
