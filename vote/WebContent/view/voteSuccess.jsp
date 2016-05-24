@@ -66,6 +66,7 @@
 	replay.setRemark("");
 	
 	//取得参数的值
+	
 	for (int i = 0; i < lname.size(); i++) {
 		
 		String name = (String) map.get(lname.get(i));
@@ -77,6 +78,7 @@
 			if (checkbox != null) {
 				int size = checkbox.length;
 				String s = "";
+				
 				for (int j = 0; j < size; j++) {
 				Answer answer = new Answer();
 				answer.setOid(oid);
@@ -100,14 +102,40 @@
 			answer.setSeValue(value);
 			answers.add(answer);
 		}else if(name.startsWith("txt")) {
+		int k=1;
+		String txt[] = request.getParameterValues(name);
+			if (txt != null) {
+				int size = txt.length;
+				String s = "";
+				
+				for (int j = 0; j < size; j++) {
+				Answer answer = new Answer();
+				answer.setOid(oid);
+				answer.setqSeq(Integer.parseInt(name.substring(name.lastIndexOf("_")+1)));
+				String cValue = txt[j];
+				//System.out.println(checkbox[j] +cValue);
+				int seSeq = k;
+				answer.setSeSeq(seSeq);
+				answer.setSeValue(cValue);
+				k++;
+				answers.add(answer);
+			  }
+			  k=1;
+			}
+		
+		
+		/*
 			Answer answer = new Answer();
 			answer.setOid(oid);
 			answer.setqSeq(Integer.parseInt(name.substring(name.lastIndexOf("_")+1)));
 			String value = request.getParameter(name);
 			//System.out.println(value);
-			answer.setSeSeq(1);
+			 
+			answer.setSeSeq(k);
 			answer.setSeValue(value);
+			k++;
 			answers.add(answer);
+			*/
 		}
 	}
 	

@@ -58,6 +58,7 @@
 				<tr>
 					<td align="left">
 						<a href="showResult2.jsp?oid=<%=oid%>">切换饼图显示</a>
+						<a href="showAvgResult.jsp?oid=<%=oid%>">切换表格显示</a>
 					</td>
 				</tr>
 		</table>
@@ -116,8 +117,8 @@
 					<img height=10 src="images/bar.gif" width="<%=result_s%>">
 					<%}%>
 				</td>
-				<td width=1%>
-					&nbsp;
+				<td width=1%>&nbsp;
+					
 				</td>
 				<td width=1%>
 					<%=result_s%>

@@ -62,6 +62,7 @@
 				<tr>
 					<td align="left">
 						<a href="showResult.jsp?oid=<%=oid%>">切换柱状图显示</a>
+						<a href="showAvgResult.jsp?oid=<%=oid%>">切换表格显示</a>
 					</td>
 				</tr>
 		</table>
