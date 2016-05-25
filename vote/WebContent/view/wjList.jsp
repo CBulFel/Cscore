@@ -327,6 +327,36 @@ function showResult_onClick(){
 		   }
 	   }
 }
+//打印
+function printOne_onClick(){
+if(typeof document.fm.radio=='undefined') return;
+	   var pkValue=getCheckBoxValue(document.fm.radio);
+	   if(pkValue!=""){
+		   var topicCode = pkValue.split(",")[0];
+		   var status = pkValue.split(",")[1];
+		  if(status==1 || status==2)
+		   {
+		   
+			  window.location.href="./printOne.jsp?oid="+topicCode;
+			 
+		   }
+		   else
+		   {
+			alert("该评分表尚未发布，不能打印结果!");
+		   }
+	   }
+}
+
+
+
+//打印所有
+function printAll_onClick(){
+
+			  window.location.href="./printAll.jsp";
+			
+		  
+}
+
 </script>
 </head>
 <body leftmargin="8" topmargin="8" background='skin/images/allbg.gif'>
@@ -347,6 +377,8 @@ function showResult_onClick(){
     <input id="b7" type='button' class="coolbg np" onClick="term_onClick();" value='终止评议' />
     <input id="b8" type='button' class="coolbg np" onClick="preview_onClick();" value='评分' />
     <input id="b9" type='button' class="coolbg np" onClick="showResult_onClick();" value='查看结果' />
+    <input id="b10" type='button' class="coolbg np" onClick="printOne_onClick();" value='打印评分表细分（.xls）' />
+	
  </td>
  </tr>
 </table>
