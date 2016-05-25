@@ -113,13 +113,8 @@ textNumber--;
 					</td>
 					<td>
 						<select name="qtype" onchange=getSelect() style="width:120px;">
-							<option value="0" selected>
-								单选
-							</option>
-							<option value="1">
-								多选
-							</option>
-							<option value="2">
+							
+							<option value="2" selected>
 								下拉框
 							</option>
 							<option value="3">
