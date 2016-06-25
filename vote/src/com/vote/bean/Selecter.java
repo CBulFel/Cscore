@@ -6,6 +6,7 @@ public class Selecter {
 	private int selseq;
 	private String content;
 	private String remark;
+	private int lim;
 	public String getContent() {
 		return content;
 	}
@@ -39,5 +40,14 @@ public class Selecter {
 		this.selseq = selseq;
 	}
 	
+	public  int getlim()
+	{
+		return lim;
+	}
+	
+	public void setlim(int lim)
+	{
+		this.lim = lim;
+	}
 
 }

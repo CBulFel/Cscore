@@ -28,8 +28,20 @@ var textNumber = 1,sEle;
 		var qvalue = document.myForm.qtype.value;
 		var addbutton=document.getElementById("add");
 		 if(qvalue!=3){
+			 for(var i=1;i<=textNumber;i++)
+			 {
+			 document.getElementById("limtd_"+i).style.visibility= "hidden";
+			 document.getElementsByTagName("INPUT")[i*2].setAttribute("type","hidden");
+			 }
+			 document.getElementById("limtext").style.visibility= "hidden";
 		 	addbutton.removeAttribute("disabled");
 		}else if(qvalue==3){
+			for(var i=1;i<=textNumber;i++)
+			{
+			document.getElementById("limtd_"+i).style.visibility= "visible";
+			 document.getElementsByTagName("INPUT")[i*2].setAttribute("type","visible");
+			}
+			document.getElementById("limtext").style.visibility= "visible";
 			addbutton.setAttribute("disabled","false");
 		}
 	 }
@@ -43,12 +55,21 @@ label.appendChild(document.createTextNode("选项"+textNumber+"："));
 		var nextRow = myTable.insertRow(rowCnt - 1);
 		var cellTitle = nextRow.insertCell(0);
 		var cellText = nextRow.insertCell(1);
+		var cellLim = nextRow.insertCell(2);
 		cellTitle.className = "m_left";
 		cellTitle.setAttribute("valign", "top");
 		cellTitle.appendChild(label);
+		cellLim.id="limtd_"+textNumber;
 		var txtName = "txt" + textNumber;
 		var txtId = "txt" + textNumber;
+		var limName = "lim" + textNumber;
+		var limId = "lim" + textNumber;
 		cellText.innerHTML = "<input type='text' name='" + txtName + "' id='" + txtId + "' style=\"width:260px;\"/>";
+		if(form.qtype.value!=3)
+		{cellLim.innerHTML = "<input type='hidden' name='" + limName + "' id='" + limId + "' onKeyUp=\" value=value.replace(/\D/g,'') \" style=\"width:50px;\" value='0'/>";}
+		else if(form.qtype.value==3)
+			{cellLim.innerHTML = "<input type='text' name='" + limName + "' id='" + limId + "' onKeyUp=\" value=value.replace(/\D/g,'') \" style=\"width:50px;\" value='0'/>";}
+		
 }
 function removeTextBox(form) {
 		var myTable = document.getElementById("myTable");
@@ -114,7 +135,7 @@ textNumber--;
 					</td>
 					<td>
 						<select name="qtype" onchange=getSelect() style="width:120px;">
-							<option value="0" selected>
+							<option value="0" >
 								单选
 							</option>
 							<option value="1">
@@ -123,10 +144,13 @@ textNumber--;
 							<option value="2">
 								下拉框
 							</option>
-							<option value="3">
+							<option value="3" selected>
 								文本框
 							</option>
 						</select>
+					</td>
+					<td id="limtext" name="limtext">
+					选择最大值
 					</td>
 				</tr>
 				<tr>
@@ -136,7 +160,10 @@ textNumber--;
 						</label>
 					</td>
 					<td>
-						<input type="text" name="txt1" id="txt1" style="width:260px;"/>
+						<input type="text" name="txt1" id="txt1"  style="width:260px;"/>
+					</td>
+					<td name="limtd_1" id="limtd_1">
+					   <input type="text" name="lim1" id="lim1" onkeyup="value=value.replace(/\D/g,'')"  style="width:50px;" value="0"/>
 					</td>
 				</tr>
 				<tr>

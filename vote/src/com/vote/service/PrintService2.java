@@ -1,4 +1,4 @@
-package com.vote.service;
+﻿package com.vote.service;
 
 
 
@@ -31,11 +31,14 @@ public class PrintService2 {
 	 int countRow=0;//数据的行数（不包括第一行名字）
 	 int indexCol=0;//目前所在列的位置
      int indexRow=0;
+     int indexRow2=0; 
+     int replayIndex=0;
      int countPeople=0;//多少个人投了这个问卷
      ArrayList<String> list=new ArrayList<String>();
      ArrayList<Integer> oidlist=new ArrayList<Integer>();
      ArrayList<String> answerList=new ArrayList<String>();
      ArrayList<String> selectList=new ArrayList<String>();
+     ArrayList<String> replayList=new ArrayList<String>();
      int answerListSize=0;
      int current=0;
 	public void printOneById(int oid)
@@ -94,17 +97,41 @@ public class PrintService2 {
 			//写问题名（列名）
 			//cell.setCellValue(question);
 			//countCol=countCol+1;
+				
+				 sql="SELECT studentId,studentName FROM wj_replay WHERE oid='"+oid+"'";
+				 stm=con.createStatement();
+				 rs6 = stm.executeQuery(sql);
+				// indexRow2=1;//从第二行开始
+				 while (rs6.next()) {
+					 String stuId=rs6.getString("studentId");
+					 String stuName=rs6.getString("studentName");
+					 String nameAndId=stuId+stuName;
+					 //HSSFRow row3=sheet.createRow(r);
+					 //HSSFRow row3=sheet.createRow(indexRow2);
+					 //HSSFCell cell3=row3.createCell(0);
+					// cell3.setCellValue(nameAndId);
+					// indexRow2++;
+					 replayList.add(nameAndId);
+				}
+				
+				
+				
+				
+				
 				System.out.println("********************************建表");
 				HSSFSheet sheet = wb.createSheet(groupName);
+				
 				sql="SELECT content FROM wj_selecter WHERE oid='"+oid+"'"+" AND qseq='1'";
 				stm=con.createStatement();
 				rs3 = stm.executeQuery(sql);
 				
 				 HSSFRow row=sheet.createRow(0);
-				 indexCol=0;//从第一列开始
+				 HSSFCell cell=row.createCell(0);
+				 cell.setCellValue("评分人");
+				 indexCol=1;//从第二列开始
 				 while(rs3.next()){//写第一行
 					 String question=rs3.getString("content");
-					 HSSFCell cell=row.createCell(indexCol);
+					 cell=row.createCell(indexCol);
 					 cell.setCellValue(question);
 					 indexCol++;//列+1
 					 countCol++;
@@ -136,8 +163,8 @@ public class PrintService2 {
 				 while (rs5.next()) {
 					 countPeople=rs5.getInt(1);
 				}
-				 indexRow=1;//从第一行开始
-				 indexCol=0;//从第0列开始
+				 indexRow=1;//从第二行开始
+				 indexCol=0;//从第一列开始
 				 countRow=countPeople;
 			  // for(int i=0;i<countPeople;i++){//读出多少个元素
 				   
@@ -145,7 +172,11 @@ public class PrintService2 {
 				  
 				   for(int r=1;r<=countPeople;r++){
 						 HSSFRow row2=sheet.createRow(r);
-						 for(int c=0;c<countCol;c++){
+						 HSSFCell cell5=row2.createCell(0);
+						 
+						 cell5.setCellValue(replayList.get(replayIndex));
+						 replayIndex++;
+						 for(int c=1;c<=countCol;c++){//从第二列开始
 							 HSSFCell cell2=row2.createCell(c);
 							
 							 System.out.println("*************r c:"+r+c);
@@ -159,9 +190,14 @@ public class PrintService2 {
 						 
 					 }
 				   
+				
+				   
+				   
 			//   }
 			   countCol=0;
 			   countRow=0;
+			   replayIndex=0;
+			   sheet.autoSizeColumn((short)0); //调整第一列宽度
 			 }
 			
 			

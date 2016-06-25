@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -293,5 +294,132 @@ public class ObjectBeanService {
 			dbcon.closeAll(con, stm, rs);
 		}
 		return count;
+	}
+	static //寻找seSeq最大值
+	int findseSeq(int oid){
+		int mseSeq=0;
+		DBConnection dbcon = new DBConnection();
+		Connection con = null;
+		Statement stm = null;
+		ResultSet rs = null;
+		String sql = "SELECT MAX(seSeq) FROM wj_answer  where oid = '" + oid	+ "'";
+		try {
+			con=dbcon.getConnection();
+			stm=con.createStatement();
+			 rs = stm.executeQuery(sql);
+			while(rs.next()){
+				mseSeq=rs.getInt(1);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbcon.closeAll(con, stm, rs);
+		}
+		
+		return mseSeq;
+	}
+	//计算出小组的总数　　qSeq最大值
+	static
+	private int findGroupCounter(int oid){
+		int mSeq=0;
+		DBConnection dbcon = new DBConnection();
+		Connection con = null;
+		Statement stm = null;
+		ResultSet rs = null;
+		String sql = "SELECT MAX(seq) FROM wj_question  where oid = '" + oid	+ "'";
+		try {
+			con=dbcon.getConnection();
+			stm=con.createStatement();
+			 rs = stm.executeQuery(sql);
+			while(rs.next()){
+				mSeq=rs.getInt(1);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbcon.closeAll(con, stm, rs);
+		}
+		
+		return mSeq;
+	}
+	//求本组评分表格的各项平均分和总平均分（内容）
+	public static List average(int oid){
+		int mseSeq=findseSeq(oid);
+		int mSeq=findGroupCounter(oid);
+		int seSeq;
+		int qSeq;
+		
+		DBConnection dbcon = new DBConnection();
+		Connection con = null;
+		Statement stm = null;
+		ResultSet rs = null;
+		
+		
+		if(mseSeq==0)
+			return null;
+		else{
+			List<ArrayList<Float>> lists=new ArrayList();
+			for(qSeq=1;qSeq<=mSeq;qSeq++){
+				ArrayList<Float> array=new ArrayList<Float>();
+				lists.add(array);
+				array.add(new Float(qSeq));//组名
+				
+			for(seSeq=1;seSeq<=mseSeq;seSeq++){
+		String sql = "SELECT AVG(seValue) FROM wj_answer  where oid = '" 
+			+oid+ "'"+ " and "+ "seSeq= '"+seSeq+"'"+
+				" and "+ "qSeq= '"+qSeq+"'";
+		try {
+			con=dbcon.getConnection();
+			stm=con.createStatement();
+			 rs = stm.executeQuery(sql);
+			while(rs.next()){
+				float temp=Float.parseFloat( rs.getString(1) );
+				System.out.println("avg="+temp);
+				array.add( temp );
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbcon.closeAll(con, stm, rs);
+		}
+			}//内 for
+			float sum=0;
+			for(int i=1;i<array.size();i++){
+				sum=sum+(Float)array.get(i);
+			}
+			array.add(sum);//组总平均分
+			}//外 for
+		
+		return lists;
+		}//else
+	}
+	//求出表格表头
+	public static List findThead(int oid){
+		List<String> list = new ArrayList();
+		list.add("组号");
+		DBConnection dbcon = new DBConnection();
+		Connection con = null;
+		Statement stm = null;
+		ResultSet rs = null;
+		String sql = "SELECT content FROM wj_selecter  where oid = '" + oid	+ "'"+" and "+" qSeq ="+"'"+1+"'";
+		try {
+			con=dbcon.getConnection();
+			stm=con.createStatement();
+			 rs = stm.executeQuery(sql);
+			while(rs.next()){
+				list.add(rs.getString(1));
+				System.out.println("thead="+rs.getString(1));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbcon.closeAll(con, stm, rs);
+		}
+		list.add("总平均分");
+		return list;
 	}
 }

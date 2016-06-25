@@ -17,7 +17,7 @@ public class SelecterService {
 		Statement stm = null;
 		ResultSet rs = null;
 		List selList=new LinkedList();
-		String sql = "select qseq,selseq,content from wj_selecter where qseq = '"
+		String sql = "select qseq,selseq,content,lim from wj_selecter where qseq = '"
 				+ seq + "' and oid = '" + oid + "' order by selseq asc";
 		 System.out.println(sql);
 		try {
@@ -28,11 +28,13 @@ public class SelecterService {
 			while(rs.next()){
 				Selecter sel=new Selecter();
 				int qseq=rs.getInt("qseq");
+				int lim=rs.getInt("lim");
 				int selseq=rs.getInt("selseq"); 
 				String content=rs.getString("content");
 				sel.setQseq(qseq);
 				sel.setSelseq(selseq);
 				sel.setContent(content);
+				sel.setlim(lim);
 				selList.add(sel);
 			}
 			return selList;
@@ -44,12 +46,12 @@ public class SelecterService {
 		}
 	}
 //	 插入选项
-	public int addSelecter(int oid, int seq, String content, int seq_selecter) {
+	public int addSelecter(int oid, int seq, String content, int seq_selecter,int lim) {
 		DBConnection dbcon = null;
 		Connection con = null;
 		Statement stm = null;
 		ResultSet rs = null;
-		String sql = "insert into wj_selecter(oid,qseq,content,selseq) values('"
+		String sql = "insert into wj_selecter(oid,qseq,content,selseq,lim) values('"
 				+ oid
 				+ "','"
 				+ seq
@@ -57,6 +59,8 @@ public class SelecterService {
 				+ content
 				+ "','"
 				+ seq_selecter
+				+ "','"
+				+ lim
 				+ "')";
 		System.out.println(sql);
 		try {

@@ -1,7 +1,8 @@
 <%@page language="java" contentType="application/x-msdownload" pageEncoding="gb2312"%> 
 <%@page import="java.net.URLEncoder"%>
 <%@page import="java.io.FileInputStream"%>
-<%@page import="java.util.Date;"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.io.FileDescriptor"%>
 
 
 
@@ -14,10 +15,11 @@
       response.setContentType("application/x-download");  
       
     //application.getRealPath("/main/mvplayer/CapSetup.msi");获取的物理路径  
-      Date d=new Date(); 
+    Date d=new Date(); 
     String filedownload = "D:\\testprint\\"+title+".xls";  
-     String filedisplay = d+".xls";  
-      URLEncoder.encode(filedisplay,"UTF-8"); 
+    String filedisplay = d+".xls";  
+    FileDescriptor fd = null;
+    URLEncoder.encode(filedisplay,"UTF-8");
       
       response.addHeader("Content-Disposition","attachment;filename=" + filedisplay);  
       
@@ -26,7 +28,7 @@
       try  
       {  
       outp = response.getOutputStream();  
-      in = new FileInputStream(filedownload);  
+      in = new FileInputStream(filedownload);   
       
       byte[] b = new byte[1024];  
       int i = 0;  
@@ -60,5 +62,5 @@
       //outp.close();  
       //outp = null;  
       //}  
-      }  
+      } 
     %>  

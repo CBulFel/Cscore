@@ -6,7 +6,12 @@
 	String errMsg="";
 	String replayCode = "";
     String replayIp = Func.getIpAddr(request);
+    String studentId = request.getParameter("studentid_0");
+    String studentName = request.getParameter("studentname_0");
+    //String replayMac = Func.getMACAddress(replayIp);
     System.out.println("replayIp "+replayIp);
+    System.out.println("studentId "+studentId);
+    System.out.println("studentName "+studentName);
     String id = request.getParameter("oid");//主题Id
 	int oid = Integer.parseInt(id);
 	ObjectBean ob = ObjectBeanService.findObjectBeanByID(oid);//
@@ -35,14 +40,14 @@
 		response.sendRedirect("voteFail.jsp?errMsg="+errMsg);
 		return;
 	}
-	if(ReplayService.exit(oid,replayIp,replayCode))
+	if(ReplayService.exit(oid,studentId,replayCode))
     {
 		errMsg = "您的答案已提交，不能重复提交!";
 		errMsg = java.net.URLEncoder.encode(errMsg,"UTF-8");
 		response.sendRedirect("voteFail.jsp?errMsg="+errMsg);
 		System.out.println(errMsg);
 		return;
-	}
+	}	
     
 	Enumeration e = request.getParameterNames();
 	List lname = new LinkedList();
@@ -62,10 +67,13 @@
 	Replay replay = new Replay();
 	replay.setReplayCode(replayCode);
 	replay.setReplayIp(replayIp);
+	replay.setStudentId(studentId);
+	replay.setStudentName(studentName);
 	replay.setoId(oid);
 	replay.setRemark("");
 	
 	//取得参数的值
+	
 	for (int i = 0; i < lname.size(); i++) {
 		
 		String name = (String) map.get(lname.get(i));
@@ -77,6 +85,7 @@
 			if (checkbox != null) {
 				int size = checkbox.length;
 				String s = "";
+				
 				for (int j = 0; j < size; j++) {
 				Answer answer = new Answer();
 				answer.setOid(oid);
@@ -100,14 +109,45 @@
 			answer.setSeValue(value);
 			answers.add(answer);
 		}else if(name.startsWith("txt")) {
+		int k=1;
+		String txt[] = request.getParameterValues(name);
+			if (txt != null) {
+				int size = txt.length;
+				String s = "";				
+				for (int j = 0; j < size; j++) {
+				Answer answer = new Answer();
+				answer.setOid(oid);
+				answer.setqSeq(Integer.parseInt(name.substring(name.lastIndexOf("_")+1)));
+				String cValue = txt[j];
+				if(Integer.parseInt(txt[j]) == 0)
+				{
+					System.out.print("txt_"+i+"_"+j+":");
+					cValue = null;
+					System.out.println(cValue);
+				}
+				//System.out.println(checkbox[j] +cValue);
+				int seSeq = k;
+				answer.setSeSeq(seSeq);
+				answer.setSeValue(cValue);			
+				k++;
+				answers.add(answer);	
+			  }
+			  k=1;
+			}
+		
+		
+		/*
 			Answer answer = new Answer();
 			answer.setOid(oid);
 			answer.setqSeq(Integer.parseInt(name.substring(name.lastIndexOf("_")+1)));
 			String value = request.getParameter(name);
 			//System.out.println(value);
-			answer.setSeSeq(1);
+			 
+			answer.setSeSeq(k);
 			answer.setSeValue(value);
+			k++;
 			answers.add(answer);
+			*/
 		}
 	}
 	

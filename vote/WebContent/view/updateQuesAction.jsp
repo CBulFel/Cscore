@@ -28,8 +28,11 @@
 		for (int i = 0; i < listCnt; i++) {
 			String name = String.valueOf("txt_" + i);
 			String value = request.getParameter(name);
+			String limname = String.valueOf("lim_"+i);
+			String getlim = request.getParameter(limname);
+			int lim = Integer.parseInt(getlim);
 			//value=new String(value.getBytes("iso8859-1"),"UTF-8");
-			ss.addSelecter(oid, seq, value, i);
+			ss.addSelecter(oid, seq, value, i,lim);
 		}
 		System.out.println("listCnt=" + listCnt);
 			}

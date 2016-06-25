@@ -29,15 +29,30 @@
 		<script type="text/javascript">
 		var qvalue=0;
 	function getSelect(){
+		var myTable = document.getElementById("myTable");
+		var rowCnt = myTable.rows.length;
+		var textNumber = (rowCnt-3);
+		textNumber++;
 		var qvalue = document.myForm.qtype.value;
 		var addbutton=document.getElementById("add");
 		 if(qvalue!=3){
+			 for(var i=1;i<textNumber;i++)
+				 {
+				 document.getElementById("limtd_"+i).style.visibility= "hidden";
+				 document.getElementsByTagName("INPUT")[i*2].setAttribute("type","hidden");
+				 }	
+			 document.getElementById("limtext").style.visibility= "hidden";
 		 	//alert("你选的是"+qvalue);
 			//window.location.reload();
 			addbutton.removeAttribute("disabled");
 		}else if(qvalue==3)
 		{
-
+			for(var i=1;i<textNumber;i++)
+				{
+				document.getElementById("limtd_"+i).style.visibility= "visible";
+				document.getElementsByTagName("INPUT")[i*2].setAttribute("type","visible");
+				}			
+			document.getElementById("limtext").style.visibility= "visible";
 			//alert("你选的是文本类");
 			addbutton.setAttribute("disabled","false");
 		}
@@ -54,13 +69,21 @@ label.appendChild(document.createTextNode("选项"+textNumber+": "));
 	var nextRow = myTable.insertRow(rowCnt - 1);
 	var cellTitle = nextRow.insertCell(0);
 	var cellText = nextRow.insertCell(1);
+	var cellLim = nextRow.insertCell(2);
 	cellTitle.className = "m_left";
 	cellTitle.setAttribute("valign", "top");
 	cellTitle.appendChild(label);
+	cellLim.id="limtd_"+(textNumber);
 	var txtName = "txt_" + (textNumber-1);
 	var txtId = "txt_" + (textNumber-1);
+	var limName = "lim_" + (textNumber-1);
+	var limId = "lim_" + (textNumber-1);
 	//alert(txtName);
 	cellText.innerHTML = "<input type='text' name='" + txtName + "' id='" + txtId + "' value='"+"' style=\"width:260px;\"/>";
+	if(form.qtype.value!=3)
+	{cellLim.innerHTML = "<input type='hidden' name='" + limName + "' id='" + limId + "' onKeyUp=\" value=value.replace(/\D/g,'') \" style=\"width:50px;\" value='0'/>";}
+	else if(form.qtype.value==3)
+		{cellLim.innerHTML = "<input type='text' name='" + limName + "' id='" + limId + "' onKeyUp=\" value=value.replace(/\D/g,'') \" style=\"width:50px;\" value='0'/>";}
 }
 
 function removeTextBox(form) {
@@ -150,12 +173,16 @@ textNumber--;
 							</option>
 						</select>
 					</td>
+					<td id="limtext" name="limtext">
+					选择最大值
+					</td>
 				</tr>
 					<%
 					if(selList!=null&&selList.size()>0){
 					for(int i=0;i<selList.size();i++){
 					Selecter sel=(Selecter)selList.get(i);
 					String txtname = "txt_"+(i);
+					String limname = "lim_"+(i);
 					%>
 				<tr>
 					<td valign="top">
@@ -168,6 +195,9 @@ textNumber--;
 						<input type="text" name="<%= txtname %>" id="<%= txtname %>"
 							value="<%=sel.getContent()%>" style="width:260px;"/>
 							<br />
+					</td>
+					<td name="limtd_<%= i+1%>" id="limtd_<%= i+1%>">
+					    <input type="text" name="<%= limname %>" id="<%= limname %>"  value="<%=sel.getlim()%>" onKeyUp="value=value.replace(/\D/g,'')" style="width:50px;" value="0"/>
 					</td>
 				</tr>
 					<%

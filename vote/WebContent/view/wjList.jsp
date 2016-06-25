@@ -400,6 +400,7 @@ function printAll_onClick(){
 		document.getElementById("b5").type="hidden";document.getElementById("b6").type="hidden";
 		document.getElementById("b7").type="hidden";
 		document.getElementById("b8").type="hidden";
+		document.getElementById("b10").type="hidden";
 		</script>
 		<%
 		}
@@ -447,7 +448,7 @@ if(objList.size()>0){
 	<td><%=stateAlias%></td>
 	<td><%=sdf.format(ob.getCreateTime())%></td>
 	<td><%=(String)session.getAttribute("userName")%></td>
-	<td> <a href="#" onclick='preview_onClick2("<%=oid+","+state%>")'>评分</a></td>
+	<td> <a href="#" style="text-decoration:underline " onclick='preview_onClick2("<%=oid+","+state%>")'>评分</a></td>
 	<td><%=(ob.getDate())%></td>
 </tr>
 <%

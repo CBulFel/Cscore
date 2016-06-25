@@ -31,7 +31,10 @@
 					for (int i = 1; i <= listCnt; i++) {
 						String name = String.valueOf("txt" + i);
 						String value = request.getParameter(name);
-						ss.addSelecter(oid, (qseq+1), value, i);
+						String limname = String.valueOf("lim" + i);
+						String getlim = request.getParameter(limname);
+						int lim = Integer.parseInt(getlim);
+						ss.addSelecter(oid, (qseq+1), value, i,lim);
 					}
 				}
 			}
@@ -45,7 +48,10 @@
 			for (int i = 1; i <= listCnt; i++) {
 				String name = String.valueOf("txt" + i);
 				String value = request.getParameter(name);
-				ss.addSelecter(oid, (qseq+1), value, i);
+				String limname = String.valueOf("lim"+i);
+				String getlim = request.getParameter(limname);
+				int lim = Integer.parseInt(getlim);
+				ss.addSelecter(oid, (qseq+1), value, i,lim);
 			}
 		}
 	}

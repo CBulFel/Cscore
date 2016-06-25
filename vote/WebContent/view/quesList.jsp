@@ -126,7 +126,7 @@ function back() {
 							href="addQues.jsp?oid=<%=oid%>&seq=<%=ques.getSeq()%>">插入题目</a>
 						<a
 							href="updateQues.jsp?oid=<%=oid%>&seq=<%=ques.getSeq()%>">编辑题目</a>
-						<a onclick="delQues(<%=ques.getSeq()%>);" href="#">删除题目</a>
+						<a onClick="delQues(<%=ques.getSeq()%>);" href="#">删除题目</a>
 						<br />
 					</td>
 				    </tr>
@@ -169,7 +169,7 @@ function back() {
 							href="addQues.jsp?oid=<%=oid%>&seq=<%=ques.getSeq()%>">插入题目</a>
 						<a
 							href="updateQues.jsp?oid=<%=oid%>&seq=<%=ques.getSeq()%>">编辑题目</a>
-						<a onclick="delQues(<%=ques.getSeq()%>);" href="#">删除题目</a>
+						<a onClick="delQues(<%=ques.getSeq()%>);" href="#">删除题目</a>
 						<br />
 					</td>
 				    </tr>
@@ -203,14 +203,15 @@ function back() {
 							href="addQues.jsp?oid=<%=oid%>&seq=<%=ques.getSeq()%>">插入题目</a>
 						<a
 							href="updateQues.jsp?oid=<%=oid%>&seq=<%=ques.getSeq()%>">编辑题目</a>
-						<a onclick="delQues(<%=ques.getSeq()%>);" href="#">删除题目</a>
+						<a onClick="delQues(<%=ques.getSeq()%>);" href="#">删除题目</a>
 						<br />
 					</td>
 					</tr>
 														
 														<%
 																																				} else if (qtype == 3) {
-																																							Selecter sel = (Selecter) selList.get(0);
+		for (int j = 0; j < selList.size(); j++) {																																		
+																																							Selecter sel = (Selecter) selList.get(j);
 																																							String txtname = "txt_" + sel.getQseq();
 																																							String textValue = "";
 																																							textValue = sel.getContent();
@@ -222,6 +223,7 @@ function back() {
 															<textarea name="<%=txtname%>" rows="3"
 																style="width: 100%"></textarea>
 														</td>
+<%}%>
 					<tr>								
 					<td>
 						<br/>
@@ -229,7 +231,7 @@ function back() {
 							href="addQues.jsp?oid=<%=oid%>&seq=<%=ques.getSeq()%>">插入题目</a>
 						<a
 							href="updateQues.jsp?oid=<%=oid%>&seq=<%=ques.getSeq()%>">编辑题目</a>
-						<a onclick="delQues(<%=ques.getSeq()%>);" href="#">删除题目</a>
+						<a onClick="delQues(<%=ques.getSeq()%>);" href="#">删除题目</a>
 						<br />
 					</td>
 					</tr>
@@ -272,8 +274,8 @@ function back() {
 					</table>
 					<br />
 				</td>
-				<td width="23" rowspan="2">
-					&nbsp;
+				<td width="23" rowspan="2">&nbsp;
+					
 				</td>
 			</tr>
 		</table>
