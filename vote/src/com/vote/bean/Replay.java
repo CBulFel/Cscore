@@ -7,6 +7,8 @@ public class Replay {
 	private int replayId; //回复ID
 	private String replayCode;//回复者代码
 	private String replayIp;//回复者IP
+	private String studentId;//学生的学号
+	private String studentName;//学生的姓名
 	private int oId;//主题Id
 	private Timestamp replayTime;//回复时间
 	private String remark;//备注
@@ -46,5 +48,27 @@ public class Replay {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+	
+	public String getStudentId()
+	{
+		return studentId;
+	}
+	
+	public void setStudentId(String studentId)
+	{
+		this.studentId=studentId;
+	}
+	
+	public String getStudentName()
+	{
+		return studentName;
+	}
+	
+	public void setStudentName(String studentName)
+	{
+		this.studentName=studentName;
+	}
+	
+	
 
 }

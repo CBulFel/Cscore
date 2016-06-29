@@ -260,7 +260,7 @@ public class ReplayService {
 			con = db.getConnection();
 			defaultAutoCommit = con.getAutoCommit();
 			con.setAutoCommit(false);
-			sql = "insert into wj_replay(replayCode,replayIp,oid,replayTime,remark) values (?,?,?,?,?)";
+			sql = "insert into wj_replay(replayCode,replayIp,oid,replayTime,remark,studentId,studentName) values (?,?,?,?,?,?,?)";
 			System.out.println(sql);
 			stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, r.getReplayCode());
@@ -268,14 +268,16 @@ public class ReplayService {
 			stmt.setInt(3, r.getoId());
 			stmt.setTimestamp(4, currentTime);
 			stmt.setString(5, r.getRemark());
+			stmt.setString(6,r.getStudentId());
+			stmt.setString(7,r.getStudentName());
 			
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
 			if(rs.next()) replayId = rs.getInt(1);
-			System.out.println("replayId: "+replayId);
+			System.out.println("replayId: "+replayId+"studentId: "+r.getStudentId());
 			
 			sql = "insert into wj_answer(replayId,oid,qSeq,seSeq,seValue,remark) values (?,?,?,?,?,?)";
-			
+			System.out.println("answers.size="+answers.size());
 			for(int i=0;i<answers.size();i++)
 			{
 				Answer a = answers.get(i);
@@ -287,7 +289,7 @@ public class ReplayService {
 				stmt.setString(5, a.getSeValue());
 				stmt.setString(6, a.getRemark());
 				stmt.executeUpdate();
-				
+				System.out.println(replayId+a.getOid()+a.getqSeq()+a.getSeSeq()+a.getSeValue());
 				count++;
 			}
 			con.commit();
@@ -342,7 +344,7 @@ public class ReplayService {
 	 * @param code
 	 * @return
 	 */
-	public static boolean exit(int oid,String replayIp,String replayCode) {
+	public static boolean exit(int oid,String studentId,String replayCode) {
 		DBConnection db = new DBConnection();
 		Connection con=null;
 		Statement stm=null;
@@ -354,7 +356,7 @@ public class ReplayService {
 			con = db.getConnection();
 			stm = con.createStatement();
 			sql = "select count(*) from wj_replay r where oid="+oid;
-			if(replayIp!=null&&!replayIp.trim().equals("")) sql +=" and r.replayIp='"+replayIp+"'";
+			if(studentId!=null&&!studentId.trim().equals("")) sql +=" and r.studentId='"+studentId+"'";
 			if(replayCode!=null&&!replayCode.trim().equals("")) sql +=" and r.replayCode='"+replayCode+"'";
 			System.out.println(sql);
 			rs = stm.executeQuery(sql);

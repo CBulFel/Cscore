@@ -23,6 +23,16 @@
 		<title>问卷管理系统</title>
 		<link type="text/css" rel="stylesheet" href="/vote/view/css/main.css" />
 		<script type="text/javascript">
+		function checkOid(a){
+			var id=0;
+			var href="showAvgResult.jsp?oid=<%=oid%>";
+			if( id==<%=rcount %> ){
+				a.href="#";
+				alert("亲，还没有人评分哦");
+			}	
+			else
+				a.href=href;
+		}
 		//返回
 		function back() {
 			window.location.href="./wjList.jsp";
@@ -42,7 +52,7 @@
 				</tr>
 				<tr>
 					<td>
-						<%=ob.getDiscribe().replaceAll("\\n","<br/>")%>
+						<textarea cols="100" rows="15"  readonly="true"><%=ob.getDiscribe() %></textarea>
 					</td>
 				</tr>
 				<tr>
@@ -52,13 +62,13 @@
 				</tr>
 				<tr>
 					<td align="left">
-						<span class="m_right">本主题共有<font color="red"> <%=rcount%> </font>人作答。</span>
+						<span class="m_right">本评分表共有<font color="red"> <%=rcount%> </font>人评分。</span>
 					</td>
 				</tr>
 				<tr>
 					<td align="left">
-						<a href="showResult2.jsp?oid=<%=oid%>">切换饼图显示</a>
-						<a href="showAvgResult.jsp?oid=<%=oid%>">切换表格显示</a>
+						<a href="showResult2.jsp?oid=<%=oid%>"><strong><font color='red'>切换饼图显示</font></strong></a>
+						<a onclick="checkOid(this)" href="showAvgResult.jsp?oid=<%=oid%>"><strong><font color='red'>切换表格显示</font></strong></a>
 					</td>
 				</tr>
 		</table>

@@ -6,7 +6,12 @@
 	String errMsg="";
 	String replayCode = "";
     String replayIp = Func.getIpAddr(request);
+    String studentId = request.getParameter("studentid_0");
+    String studentName = request.getParameter("studentname_0");
+    //String replayMac = Func.getMACAddress(replayIp);
     System.out.println("replayIp "+replayIp);
+    System.out.println("studentId "+studentId);
+    System.out.println("studentName "+studentName);
     String id = request.getParameter("oid");//主题Id
 	int oid = Integer.parseInt(id);
 	ObjectBean ob = ObjectBeanService.findObjectBeanByID(oid);//
@@ -35,14 +40,14 @@
 		response.sendRedirect("voteFail.jsp?errMsg="+errMsg);
 		return;
 	}
-	if(ReplayService.exit(oid,replayIp,replayCode))
+	if(ReplayService.exit(oid,studentId,replayCode))
     {
 		errMsg = "您的答案已提交，不能重复提交!";
 		errMsg = java.net.URLEncoder.encode(errMsg,"UTF-8");
 		response.sendRedirect("voteFail.jsp?errMsg="+errMsg);
 		System.out.println(errMsg);
 		return;
-	}
+	}	
     
 	Enumeration e = request.getParameterNames();
 	List lname = new LinkedList();
@@ -62,6 +67,8 @@
 	Replay replay = new Replay();
 	replay.setReplayCode(replayCode);
 	replay.setReplayIp(replayIp);
+	replay.setStudentId(studentId);
+	replay.setStudentName(studentName);
 	replay.setoId(oid);
 	replay.setRemark("");
 	
@@ -106,19 +113,25 @@
 		String txt[] = request.getParameterValues(name);
 			if (txt != null) {
 				int size = txt.length;
-				String s = "";
-				
+				String s = "";				
 				for (int j = 0; j < size; j++) {
 				Answer answer = new Answer();
 				answer.setOid(oid);
 				answer.setqSeq(Integer.parseInt(name.substring(name.lastIndexOf("_")+1)));
 				String cValue = txt[j];
+				/*
+				if(Integer.parseInt(txt[j]) == 0)
+				{
+					System.out.print("txt_"+i+"_"+j+":");
+					cValue = null;
+					System.out.println(cValue);
+				}*/
 				//System.out.println(checkbox[j] +cValue);
 				int seSeq = k;
 				answer.setSeSeq(seSeq);
-				answer.setSeValue(cValue);
+				answer.setSeValue(cValue);			
 				k++;
-				answers.add(answer);
+				answers.add(answer);	
 			  }
 			  k=1;
 			}
@@ -162,7 +175,7 @@ a:active {color: #09797b;}
 <div style="background:url(images/corner2.gif) no-repeat;width:4px;float:right;height:32px;"></div>
 <div style="background:url(images/corner1.gif) no-repeat;width:100px;height:23px;padding:9px 0 0 10px;text-align:center;"></div></div>
 <div style="background:#fff;border-left:1px solid #b5e1d6;border-right:1px solid #b5e1d6;text-align:center;height:120px;padding-top:20px;"><span style="font-size:18px;font-family:黑体;">感谢参与</span>
-<p style="margin:5px;text-align:left;padding:0 20px;text-indent:2em;line-height:1.6em;font-size:14px;">感谢您在百忙之中，能抽出时间参与本次调研活动，您的宝贵意见将会为我们日后工作提供很大帮助，非常感谢您的参与和对我们工作的支持。
+<p style="margin:5px;text-align:left;padding:0 20px;text-indent:2em;line-height:1.6em;font-size:14px;">感谢您在百忙之中，能抽出时间参与本次评分活动，您的宝贵意见将会为我们日后工作提供很大帮助，非常感谢您的参与和对我们工作的支持。
 <br/>
 </p>
 </div>

@@ -22,7 +22,7 @@
 		int oid = Integer.parseInt(id);
 		List listThead=ObjectBeanService.findThead(oid);
 		List< ArrayList<Float> > listContent=ObjectBeanService.average(oid);
-		
+		ObjectBean ob = ObjectBeanService.findPublishedObjectBeanByID(oid);//查找发布后的问卷
 	%>
 	
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -30,13 +30,28 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>表格显示</title>
-</head>
-<body>
 
-<table width="98%" border="1" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
-  <caption><h2>各小组的各项平均分</h2></caption>
+</head>
+
+<body>
+<textarea id="txtarea" cols="100" rows="15"  readonly="true"><%=ob.getDiscribe()%></textarea>
+<% String sarry[]= ob.getDiscribe().split("\n"); 
+  %>
+
+
+<table  width="98%" border="1" cellpadding="2" cellspacing="1" bgcolor="#D1DDAA" align="center" style="margin-top:8px">
+  <caption><h2><%=ob.getTitle()%>各小组的各项平均分</h2></caption>
+  
+  <% for(int i=0;i<sarry.length;i++){
+	%>
+	<tr align='center' bgcolor="#FFFFFF" onMouseMove="javascript:this.bgColor='#FCFDEE';" onMouseOut="javascript:this.bgColor='#FFFFFF';" height="22">
+	<td colspan="<%=listThead.size() %>" align="left">
+	<h4><%=sarry[i] %></h4>
+	</td>
+	</tr>
+<% }%>
+  
 <tr align='center' bgcolor="#FFFFFF" onMouseMove="javascript:this.bgColor='#FCFDEE';" onMouseOut="javascript:this.bgColor='#FFFFFF';" height="22">
- 
 <%
 for(int i=0;i<listThead.size();i++){
 	String str=(String)listThead.get(i);
@@ -61,6 +76,7 @@ for(int i=0;i<array.size();i++){
 
 </table>
 	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br> 
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 </body>
+
 </html>

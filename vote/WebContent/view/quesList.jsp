@@ -61,7 +61,7 @@ function back() {
 											<table class="table">
 												<tr>
 													<td>
-														<%=ob.getDiscribe().replaceAll("\\n","<br/>")%>
+														<textarea cols="100" rows="15"  readonly="true"><%=ob.getDiscribe() %></textarea>
 													</td>
 												</tr>
 											</table>

@@ -29,9 +29,12 @@
 				if (insertQues > 0) {
 				//插入选项数据
 					for (int i = 1; i <= listCnt; i++) {
-						String name = String.valueOf("txt" + i);
+						String name = String.valueOf("txt" + (i-1));
 						String value = request.getParameter(name);
-						ss.addSelecter(oid, (qseq+1), value, i);
+						String limname = String.valueOf("lim" + (i-1));
+						String getlim = request.getParameter(limname);
+						int lim = Integer.parseInt(getlim);
+						ss.addSelecter(oid, (qseq+1), value, i,lim);
 					}
 				}
 			}
@@ -43,9 +46,12 @@
 		if (addQues > 0) {
 	//插入选项数据
 			for (int i = 1; i <= listCnt; i++) {
-				String name = String.valueOf("txt" + i);
+				String name = String.valueOf("txt" + (i-1));
 				String value = request.getParameter(name);
-				ss.addSelecter(oid, (qseq+1), value, i);
+				String limname = String.valueOf("lim" + (i-1));
+				String getlim = request.getParameter(limname);
+				int lim = Integer.parseInt(getlim);
+				ss.addSelecter(oid, (qseq+1), value, i,lim);
 			}
 		}
 	}

@@ -52,6 +52,7 @@ ObjectBean ob = ObjectBeanService.findPublishedObjectBeanByID(oid);//查找发�
 	//System.out.println("zheli"+listThead);
 	
 	for(int k=0;k<listThead.size();k++){
+		//System.out.println("head"+listThead.get(k)+"qwe");
 		%>
 		jsonHead.push( "<%=(String)listThead.get(k) %>" ) ;
 		
@@ -63,8 +64,9 @@ ObjectBean ob = ObjectBeanService.findPublishedObjectBeanByID(oid);//查找发�
 		ArrayList<Float> array=listContent.get(i);
 		jobContent=new JsonObject();
 		for(int j=0;j<array.size();j++){
-			jobContent.addProperty( (String)listThead.get(j), 
-					 array.get(j)  );
+			String str=(String)listThead.get(j)+" ";//加多一个空格确保为字符串
+			//System.out.println("str"+str+"qwe");
+			jobContent.addProperty( str, array.get(j)  );
 	%>
 	<% } %>
 	var temp=<%=jobContent %>;
@@ -101,19 +103,32 @@ ObjectBean ob = ObjectBeanService.findPublishedObjectBeanByID(oid);//查找发�
 
 <body>
 
-<div >
-	<h3 align="center"> <%=ob.getTitle() %></h3>
-	
-	<div align="center">
-	<p> <%=ob.getDiscribe() %></p>
-	</div>
-	
-	<div id="example1" style="width:900px">
-	   <br/>
-	<a href="excel.jsp?exportToExcel=YES">导出到Excel</a>
-	</div>
-	
-</div>
+<table cellspacing="0" cellpadding="1" width="750" align="center" class="tab1">
+				<tr>
+					<td align="center">
+						<strong><%=ob.getTitle()%> </strong>
+					</td>
+				</tr>
+				<tr>
+					<td align="center"><br></td>
+				</tr>
+				<tr>
+					<td>
+					<textarea cols="100" rows="15"  readonly="true"><%=ob.getDiscribe()%></textarea>
+					</td>
+				</tr>
+				<tr>
+				     <td>
+				         <div id="example1" style="width:900px">
+				     </td>
+				</tr>
+				<tr>
+				     <td>
+				     <a href="excel.jsp?exportToExcel=YES">导出到Excel</a>
+				     </td>
+				</tr>
+</table>
+	 
 
 </body>
 </html>

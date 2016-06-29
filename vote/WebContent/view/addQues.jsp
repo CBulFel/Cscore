@@ -1,14 +1,21 @@
 ﻿<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="check.jsp"%>
+<%@page import="java.util.*" %>
 <%@page import="com.vote.service.*"%>
 <%@page import="com.vote.bean.*"%>
 <%@page import="java.sql.*"%>
 <%
 			String id = request.getParameter("oid");
-			String seq = request.getParameter("seq");
+			String qseq = request.getParameter("seq");
 			int oid = Integer.parseInt(id);
+			int seq = Integer.parseInt(qseq);
 			MyTool tool = new MyTool();
+			QuestionService qs=new QuestionService();
+			SelecterService ss=new SelecterService();
+			Question ques=qs.getQuesBySeq(seq, oid);
+			System.out.println("qtype:"+ques.getQtype());
 			ObjectBean ob = ObjectBeanService.findObjectBeanByID(oid);
+			List selList=ss.listSelecterBySeq(seq, oid);
 			int state = ob.getState();
 			if (state == 1 || state == 2) {
 		    //清空回复表中的数据
@@ -25,15 +32,34 @@
 var textNumber = 1,sEle;
 	var qvalue=0;
 	function getSelect(){
+		var myTable = document.getElementById("myTable");
+		var rowCnt = myTable.rows.length;
+		var textNumber = (rowCnt-3);
 		var qvalue = document.myForm.qtype.value;
 		var addbutton=document.getElementById("add");
 		 if(qvalue!=3){
+			 for(var i=1;i<=textNumber;i++)
+			 {
+			 document.getElementById("limtd_"+i).style.visibility= "hidden";
+			 document.getElementsByTagName("INPUT")[i*2].setAttribute("type","hidden");
+			 }
+			 document.getElementById("limtext").style.visibility= "hidden";
 		 	addbutton.removeAttribute("disabled");
 		}else if(qvalue==3){
+			for(var i=1;i<=textNumber;i++)
+			{
+			document.getElementById("limtd_"+i).style.visibility= "visible";
+			 document.getElementsByTagName("INPUT")[i*2].setAttribute("type","visible");
+			}
+			document.getElementById("limtext").style.visibility= "visible";
 			addbutton.setAttribute("disabled","false");
 		}
 	 }
 function addTextBox(form, afterElement) {
+	var myTable = document.getElementById("myTable");
+	var rowCnt = myTable.rows.length;
+	var textNumber = (rowCnt-3);
+	var sEle;
 textNumber++;
 var label = document.createElement("label");
 		label.setAttribute("class", "m_left");
@@ -43,12 +69,21 @@ label.appendChild(document.createTextNode("选项"+textNumber+"："));
 		var nextRow = myTable.insertRow(rowCnt - 1);
 		var cellTitle = nextRow.insertCell(0);
 		var cellText = nextRow.insertCell(1);
+		var cellLim = nextRow.insertCell(2);
 		cellTitle.className = "m_left";
 		cellTitle.setAttribute("valign", "top");
 		cellTitle.appendChild(label);
-		var txtName = "txt" + textNumber;
-		var txtId = "txt" + textNumber;
+		cellLim.id="limtd"+textNumber;
+		var txtName = "txt" + (textNumber-1);
+		var txtId = "txt" + (textNumber-1);
+		var limName = "lim" + (textNumber-1);
+		var limId = "lim" + (textNumber-1);
 		cellText.innerHTML = "<input type='text' name='" + txtName + "' id='" + txtId + "' style=\"width:260px;\"/>";
+		if(form.qtype.value!=3)
+		{cellLim.innerHTML = "<input type='hidden' name='" + limName + "' id='" + limId + "' onKeyUp=\" value=value.replace(/\D/g,'') \" style=\"width:50px;\" value='0'/>";}
+		else if(form.qtype.value==3)
+			{cellLim.innerHTML = "<input type='text' name='" + limName + "' id='" + limId + "' onKeyUp=\" value=value.replace(/\D/g,'') \" style=\"width:50px;\" value='0'/>";}
+		
 }
 function removeTextBox(form) {
 		var myTable = document.getElementById("myTable");
@@ -66,7 +101,9 @@ textNumber--;
  			return false;
  		}else{
  				var listCnt = document.getElementById("listCnt");
-				listCnt.value = textNumber;
+ 				var myTable = document.getElementById("myTable");
+ 				var textNumber = myTable.rows.length;
+ 				listCnt.value = (textNumber-3);
  		  	 	document.myForm.action="./addQuesAction.jsp";
  		  	    document.myForm.submit();
  				return true;
@@ -105,40 +142,58 @@ textNumber--;
 						题目：
 					</td>
 					<td>
-						<input type="text" name="content"  style="width:300px;"/>
+						<input type="text" name="content"   style="width:300px;"/>
 					</td>
 				</tr>
 				<tr>
 					<td valign="top">
 						类型：
 					</td>
+					<% int qtype=ques.getQtype(); %>
 					<td>
 						<select name="qtype" onchange=getSelect() style="width:120px;">
-							<option value="0" selected>
+							<option value="0"  <%if(qtype==0) out.println("selected"); %>>
 								单选
 							</option>
-							<option value="1">
+							<option value="1" <%if(qtype==1) out.println("selected"); %>>
 								多选
 							</option>
-							<option value="2">
+							<option value="2" <%if(qtype==2) out.println("selected"); %>>
 								下拉框
 							</option>
-							<option value="3">
+							<option value="3" <%if(qtype==3) out.println("selected"); %>>
 								文本框
 							</option>
 						</select>
 					</td>
+					<td id="limtext" name="limtext">
+					选择最大值
+					</td>
 				</tr>
+				    <%
+					if(selList!=null&&selList.size()>0){
+					for(int i=0;i<selList.size();i++){
+					Selecter sel=(Selecter)selList.get(i);
+					String txtname = "txt"+(i);
+					String limname = "lim"+(i);
+					%>
 				<tr>
 					<td valign="top">
 						<label>
-							选项1：
+							选项
+							<%= i+1%>:
 						</label>
 					</td>
 					<td>
-						<input type="text" name="txt1" id="txt1" style="width:260px;"/>
+						<input type="text" name="<%=txtname %>" id="<%=txtname %>"  style="width:260px;" value="<%=sel.getContent()%>"/>
+					</td>
+					<td name="limtd_<%= i+1 %>>" id="limtd_<%= i+1 %>">
+					   <input type="text" name="<%=limname %>" id="<%=limname %>" onKeyUp="value=value.replace(/\D/g,'')"  style="width:50px;" value="<%=sel.getlim()%>"/>
 					</td>
 				</tr>
+				    <%
+					}}
+					%>
 				<tr>
 					<td>
 						<input type="hidden" name="listCnt" id="listCnt" value="" />
@@ -146,8 +201,8 @@ textNumber--;
 						<input type="hidden" name="seq" value="<%=seq%>" />
 					</td>
 					<td id="td1">
-						<input type="button" value="添加选项 " name="add" onclick="addTextBox(this.form,this.parentNode)" class="btn"/>
-						<input type="button" value="删除选项 " onclick="removeTextBox(this.form)" class="btn"/>
+						<input type="button" value="添加选项 " name="add" onClick="addTextBox(this.form,this.parentNode)" class="btn"/>
+						<input type="button" value="删除选项 " onClick="removeTextBox(this.form)" class="btn"/>
 					</td>
 				</tr>
 			</table>

@@ -8,6 +8,7 @@
  String username = request.getParameter("username");
  String password = request.getParameter("password");
  String radioFlag= request.getParameter("radioFlag");//标记是否为管理员
+ 
  System.out.println("radioFlag="+radioFlag);
  AdminService as=new AdminService();
  AdminBean admin=as.longin(username,password,radioFlag);//**

@@ -27,8 +27,11 @@
 			for (int i = 1; i <= listCnt; i++) {
 				String name = String.valueOf("txt" + i);
 				String value = request.getParameter(name);
+				String limname = String.valueOf("lim"+i);
+				String getlim = request.getParameter(limname);
+				int lim = Integer.parseInt(getlim);
+				ss.addSelecter(oid, seq, value, i,lim);
 				//value=new String(value.getBytes("iso8859-1"),"UTF-8");
-				ss.addSelecter(oid, seq, value, i);
 			}
 		}
 	} else {
@@ -40,7 +43,10 @@
 		String name = String.valueOf("txt" + i);
 		String value = request.getParameter(name);
 		//value=new String(value.getBytes("iso8859-1"),"UTF-8");
-		ss.addSelecter(oid, (count + 1), value, i);
+		String limname = String.valueOf("lim"+i);
+		String getlim = request.getParameter(limname);
+		int lim = Integer.parseInt(getlim);
+		ss.addSelecter(oid, (count + 1), value, i,lim);
 			}
 		}
 	}
