@@ -8,7 +8,10 @@
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="java.util.ArrayList"%>
+<<<<<<< HEAD
 <%@page import="java.io.File"%>
+=======
+>>>>>>> ad2949df4407e55e49a25643eb7414ee04470278
 
 
 
@@ -21,8 +24,11 @@ ResultSet rs1 = null;
 String sql=null;
 Statement stm=null;
 String wjTitle=null;
+<<<<<<< HEAD
 File f=new File("D://testprint");   
 f.mkdir();
+=======
+>>>>>>> ad2949df4407e55e49a25643eb7414ee04470278
 String id=request.getParameter("oid");
 int oid=Integer.parseInt(id);
 sql = "select * from wj_object where oid='"+ oid + "'";
